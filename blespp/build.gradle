@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion androidVersions.compileSdkVersion
@@ -31,19 +32,20 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
     implementation project(':applog')
-    implementation project(':core')
-    implementation project(':ble:nordic-ble')
+//    implementation project(':core')
+    implementation project(':nordic-ble')
     implementation dependenciesList.Appcompat
 }
 
-// === Maven Central configuration ===
-// The following file exists only when Android BLE Library project is opened, but not
-// when the module is loaded to a different project.
-if (rootProject.file('gradle/publish-module.gradle').exists()) {
-    ext {
-        POM_ARTIFACT_ID = 'com.intelink.ble'
-        POM_NAME = 'Bluetooth Low Energy library for Android'
-        POM_PACKAGING = 'aar'
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.druid.blespp'
+                artifactId = 'blespplib'
+                version = '1.0.1'
+            }
+        }
     }
-    apply from: rootProject.file('gradle/publish-module.gradle')
 }

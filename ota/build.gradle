@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion androidVersions.compileSdkVersion
@@ -24,9 +25,22 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
-    implementation project(':ble:blespp')
-    implementation project(':ble:bluetoothspp')
-    implementation project(':ble:protocol')
+    implementation project(':blespp')
+    implementation project(':bluetoothspp')
+    implementation project(':protocol')
     implementation dependenciesList.Appcompat
     implementation dependenciesList.Protobuf
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.druid.ota'
+                artifactId = 'otalib'
+                version = '1.0.1'
+            }
+        }
+    }
 }

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion androidVersions.compileSdkVersion
@@ -26,5 +27,18 @@ android {
 dependencies {
     testImplementation 'junit:junit:4.12'
     api dependenciesList.Annotations
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.druid.nordic'
+                artifactId = 'nordiclib'
+                version = '1.0.1'
+            }
+        }
+    }
 }
 

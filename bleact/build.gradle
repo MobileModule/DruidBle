@@ -1,6 +1,5 @@
-plugins {
-    id 'com.android.library'
-}
+apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion androidVersions.compileSdkVersion
@@ -23,8 +22,21 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
     implementation dependenciesList.Protobuf
-    implementation project(':ble:ota')
-    implementation project(':ble:protocol')
-    implementation project(':ble:blespp')
-    implementation project(':ble:bluetoothspp')
+    implementation project(':ota')
+    implementation project(':protocol')
+    implementation project(':blespp')
+    implementation project(':bluetoothspp')
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.druid.bleact'
+                artifactId = 'bleactlib'
+                version = '1.0.1'
+            }
+        }
+    }
 }

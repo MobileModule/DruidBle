@@ -6,6 +6,20 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/applog" />
+            <option value="$PROJECT_DIR$/bleact" />
+            <option value="$PROJECT_DIR$/blespp" />
+            <option value="$PROJECT_DIR$/bluetoothspp" />
+            <option value="$PROJECT_DIR$/main" />
+            <option value="$PROJECT_DIR$/nordic-ble" />
+            <option value="$PROJECT_DIR$/ota" />
+            <option value="$PROJECT_DIR$/protocol" />
+            <option value="$PROJECT_DIR$/scanner" />
+          </set>
+        </option>
       </GradleProjectSettings>
     </option>
   </component>

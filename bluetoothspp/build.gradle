@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion androidVersions.compileSdkVersion
@@ -18,4 +19,16 @@ android {
     }
 }
 
-//apply from: '../maven_push.gradle'
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.druid.blutoothspp'
+                artifactId = 'blutoothspplib'
+                version = '1.0.1'
+            }
+        }
+    }
+}

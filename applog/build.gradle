@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
 apply plugin: 'maven-publish'
 
 android {
@@ -16,17 +17,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    lintOptions {
-        abortOnError false
-        checkReleaseBuilds false
-    }
+}
+
+greendao {
+    schemaVersion 3//升级版本
+    daoPackage 'com.android.log.dao' //dao的包名，包名默认是entity所在的包；
+    targetGenDir 'src/main/java'//生成数据库文件的目录;
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: "libs", include: ["*.jar"])
     testImplementation 'junit:junit:4.12'
-    implementation dependenciesList.Appcompat
-    implementation dependenciesList.Protobuf
+    api 'org.greenrobot:greendao:3.3.0' // add library
 }
 
 afterEvaluate {
@@ -34,8 +36,8 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.release
-                groupId = 'com.druid.protocol'
-                artifactId = 'protocollib'
+                groupId = 'com.druid.applpg'
+                artifactId = 'apploglib'
                 version = '1.0.1'
             }
         }
