@@ -1,0 +1,101 @@
+/**
+ * @brief
+ *
+ * @file adv_msd_v2.h
+ * @date 2019-03-05
+ * @author DengJian
+ * @copyright (c) 2016-2018 by Druid Technology Co., Ltd.  All Rights Reserved.
+ */
+
+#ifndef __ADV_MSD_H__
+#define __ADV_MSD_H__
+#include <stdbool.h>
+#include <stdint.h>
+
+enum {
+  VOL_TYPE_POWER = 0,
+  VOL_TYPE_VOLTAGE = 1,
+};
+
+#pragma pack(push,1)
+
+typedef struct {
+  uint8_t version : 4;
+  uint8_t time : 4;
+  uint16_t odba;
+} behavior_0_t;
+
+typedef struct adv_msd_s {
+  union {
+    uint16_t value;
+    struct {
+      uint16_t version : 2;
+      uint16_t reserved : 1;
+      uint16_t has_behavior : 1;
+      uint16_t has_env : 1;
+      uint16_t has_alarm : 1;
+      uint16_t has_platform : 1;
+      uint16_t expand_flag : 1;
+      uint16_t expand : 8;
+    } mask;
+  } header;
+
+  // SN
+  uint8_t sn[5];
+
+  // firmware version
+  uint16_t fw_version;
+
+  // hardware version
+  uint16_t hw_version;
+
+  // voltage / power
+  struct {
+    uint16_t value : 15;
+    uint16_t type : 1;
+  } voltage;
+
+  // hash
+  struct {
+    uint16_t cfg : 12;
+    uint16_t adv : 4;
+  } hash;
+
+  // device status
+  struct {
+    uint8_t time : 4;
+    uint8_t active : 2;
+  } dev_status;
+
+  // temperature
+  struct {
+    int16_t value : 15; // 精确到0.1度
+    uint16_t type : 1; // 1 - 高精度
+  } temperature;
+
+  // ++++++++++++ optional ++++++++++++++
+  // behavior
+  struct {
+    union {
+      behavior_0_t behavior_0;
+    } inst;
+  } behavior;
+
+  // alarm
+  struct {
+    uint8_t hw_error: 1;
+    uint8_t sw_error: 1;
+    uint8_t reserved: 4;
+    uint8_t estrus_flag: 1;
+    uint8_t static_flag: 1;
+  } alarm;
+
+  // platform
+  uint8_t platform;
+} adv_msd_t;
+#pragma pack(pop)
+
+bool adv_msd_decode(adv_msd_t* msd, uint8_t* buf, uint16_t length, bool is_scan_resp);
+int adv_msd_encode(const adv_msd_t* msd, uint8_t* buf, uint8_t buf_size);
+
+#endif // __ADV_MSD_H__

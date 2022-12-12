@@ -1,0 +1,4 @@
+<resources>
+    <string name="turned_on">设备已经激活</string>
+    <string name="turned_off">设备已经失活</string>
+</resources>

@@ -1,0 +1,76 @@
+typedef struct adv_msd {
+  union {
+    int16_t value;
+    struct {
+      uint16_t version : 2;
+      uint16_t reserved : 1;
+      uint16_t has_adv_hash: 1;
+      uint16_t has_mac : 1;
+      uint16_t has_fw_version : 1;
+      uint16_t has_cfg_hash : 1;
+      uint16_t has_dev_type : 1;
+      uint16_t has_temperature : 1;
+      uint16_t has_pressure : 1;
+      uint16_t has_voltage : 1;
+      uint16_t has_power : 1;
+      uint16_t has_index : 1;
+      uint16_t has_status: 1;
+      uint16_t has_behavior : 1;
+      uint16_t has_old_behavior : 1;
+    } mask;
+  } header;
+    uint8_t mac[2];
+    uint16_t fw_version;
+
+    union {
+        uint16_t value;
+        struct {
+            uint16_t cfg: 12;
+            uint16_t adv: 4;
+        } mask;
+    } hash;
+    uint16_t dev_type;
+
+    struct {
+        int16_t value : 15; // 精确到0.1度
+        uint16_t type : 1; // 1 - 高精度
+    } temperature;
+    uint16_t pressure;
+    uint16_t voltage;
+
+    uint8_t  power;
+    union {
+      uint8_t value;
+      struct {
+        uint8_t time: 4;
+        uint8_t data: 4;
+      } mask;
+    } index;
+    union {
+      uint8_t value;
+      struct {
+        uint8_t hw_error: 1;
+        uint8_t sw_error: 1;
+        uint8_t reserved: 4;
+        uint8_t estrus_flag: 1;
+        uint8_t static_flag: 1;
+      } mask;
+    } status;
+
+    struct {
+        uint16_t version: 2;
+        uint16_t eating : 7;
+        uint16_t ruminate : 7;
+        uint16_t odba;
+        uint16_t steps;
+    } behavior;
+
+    struct {
+        uint16_t version: 2;
+        uint16_t eating : 7;
+        uint16_t ruminate : 7;
+        uint16_t odba;
+        uint16_t steps;
+    } old_behavior;
+
+} adv_msd_t;

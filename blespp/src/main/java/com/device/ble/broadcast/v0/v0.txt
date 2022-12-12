@@ -1,0 +1,38 @@
+typedef struct adv_msd {
+  union {
+    int16_t value;
+    struct {
+      uint16_t has_mac : 1;
+      uint16_t has_voltage : 1;
+      uint16_t has_version : 1;
+      uint16_t has_steps: 1;
+      uint16_t has_index : 1;
+      uint16_t has_userhash: 1;
+      uint16_t has_odba: 1;
+      uint16_t has_behavior: 1;
+      uint16_t has_warning: 1;
+    } mask;
+  } header;
+    uint8_t mac[2];
+    uint16_t voltage;
+    uint16_t version;
+    uint16_t userhash;
+    uint32_t steps;
+    uint16_t odba;
+    union {
+      uint8_t value;
+      struct {
+        uint8_t prediction: 6;
+        uint8_t static_flag: 1;
+        uint8_t estrus_flag: 1;
+      } mask;
+    } behavior;
+    uint8_t warning;
+    union {
+      uint8_t value;
+      struct {
+        uint8_t time_index : 4;
+        uint8_t data_index : 4;
+      } mask;
+    } index;
+} adv_msd_t;

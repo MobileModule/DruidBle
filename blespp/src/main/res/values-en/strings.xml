@@ -1,0 +1,4 @@
+<resources>
+    <string name="turned_on">The device has been activated</string>
+    <string name="turned_off">The device has been inactivated</string>
+</resources>

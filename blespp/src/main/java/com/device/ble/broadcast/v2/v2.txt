@@ -1,0 +1,108 @@
+/**
+ * @brief
+ *
+ * @file adv_msd_v3.h
+ * @date 2019-03-05
+ * @author DengJian
+ * @copyright (c) 2016-2018 by Druid Technology Co., Ltd.  All Rights Reserved.
+ */
+
+#ifndef __ADV_MSD_V3_H__
+#define __ADV_MSD_V3_H__
+#include <stdbool.h>
+#include <stdint.h>
+
+typedef struct adv_msd_v3 {
+    union {
+        int16_t value;
+        struct {
+            uint16_t version : 2;
+            uint16_t has_basic_info: 1;
+            uint16_t has_adv_hash: 1;
+            uint16_t has_cfg_hash: 1;
+            uint16_t has_status: 1;
+            uint16_t has_feature: 1;
+            uint16_t ext1: 1;
+            uint16_t has_temperature : 1;
+            uint16_t has_pressure : 1;
+            uint16_t has_light: 1;
+            uint16_t has_behavior : 1;
+            uint16_t has_old_behavior : 1;
+            uint16_t rfu2 : 2;
+            uint16_t ext2 : 1;
+        } mask;
+    } header;
+
+    struct __attribute__((__packed__)) {
+        uint8_t sn[5];
+
+        uint8_t conn_index: 4;
+        uint8_t sys_state: 4;
+
+        uint16_t hw_version;
+        uint16_t fw_version;
+
+        struct {
+            int16_t value : 15;
+            uint16_t type : 1; // 1 - 电压(mV), 0 - 剩余电量(%)
+        } power;
+
+    } basic_info;
+
+    union {
+        uint16_t value;
+        struct {
+            uint16_t cfg: 12;
+            uint16_t adv: 4;
+        } mask;
+    } hash;
+
+    union {
+      uint8_t value;
+      struct {
+        uint8_t hw_error: 1;
+        uint8_t sw_error: 1;
+        uint8_t reserved: 4;
+        uint8_t estrus_flag: 1;
+        uint8_t static_flag: 1;
+      } mask;
+    } status;
+
+    union {
+        uint8_t value;
+        struct {
+            uint8_t rfu: 8;
+        } mask;
+    } feature;
+
+    struct {
+        int16_t value : 15; // 精确到0.1度
+        uint16_t type : 1; // 1 - 高精度
+    } temperature;
+    uint16_t pressure;
+    uint16_t light;
+
+    struct {
+        uint16_t version: 2;
+        uint16_t eating : 7;
+        uint16_t ruminate : 7;
+        uint16_t odba;
+        uint16_t steps;
+    } behavior;
+
+    struct {
+        uint16_t version: 2;
+        uint16_t eating : 7;
+        uint16_t ruminate : 7;
+        uint16_t odba;
+        uint16_t steps;
+    } old_behavior;
+
+} adv_msd_v3_t;
+
+
+
+bool adv_msd_v3_decode(adv_msd_v3_t* msd, uint8_t* buf, uint16_t length, bool is_scan_rsp);
+int adv_msd_v3_encode(const adv_msd_v3_t* msd, uint8_t* buf, uint8_t buf_size);
+
+#endif
