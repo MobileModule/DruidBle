@@ -115,6 +115,7 @@ public class BluetoothBroadcastUtils {
             return voltage;
         }
 
+        //唯一读取的uuid
         public static String getInCompleteUniqueUUID(BCProtoDataEntity bcData) {
             String inCompleteUUID = "";// 无效值
             if (bcData != null) {
@@ -150,6 +151,7 @@ public class BluetoothBroadcastUtils {
             return inCompleteUUID;
         }
 
+        //完整uuid
         public static String getInCompleteShowUUID(BCProtoDataEntity bcData, String mac) {
             String inCompleteUUID = "";// 无效值
             if (bcData != null) {

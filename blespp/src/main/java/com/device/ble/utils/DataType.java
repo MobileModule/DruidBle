@@ -63,12 +63,14 @@ public class DataType {
 
     /**
      * 有符号int16转换
-     * @param bytes
-     * @param offset
-     * @return
      */
     public static final int byteArrayToSigned16(byte[] bytes, int offset){
-        return (bytes[offset+1] << 8) | (bytes[offset] & 0xFF);
+//        return (bytes[offset+1] << 8) | (bytes[offset] & 0xFF);
+        byte result = 0;
+        int result1 = result | bytes[offset + 1];
+        result1 <<= 8;
+        result1 |= bytes[offset] & 0xFF;
+        return result1;
     }
 
     public static final int byteArrayTo8(byte[] bytes, int offset) {

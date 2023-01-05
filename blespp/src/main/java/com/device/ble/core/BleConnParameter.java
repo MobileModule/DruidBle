@@ -18,6 +18,7 @@ public class BleConnParameter implements Serializable {
     public int firmware_version = 0;
     public Object object = null;//自定义对象
     public HubBroadcastModel broadcastDevice = null;//广播透传状态
+    public String collaboration_id="";//协作id
 
     public void setBleName(String ble_name) {//特殊处理
         this.ble_name = ble_name;

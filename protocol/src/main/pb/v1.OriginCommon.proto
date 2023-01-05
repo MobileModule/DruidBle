@@ -1,0 +1,21 @@
+syntax = "proto2";
+
+package protocol_v1;
+
+option objc_class_prefix = "V1"; // Objective-C 编译字段，不影响其他功能，只在OC有效
+
+
+message OriginCommonReq {
+    optional uint64 Timestamp = 1;                // 开始时间
+    optional uint32 SamplingFreq = 2 [default=0]; // 采样频率，每秒次数
+    repeated OriginCommon OriginCommonInfo = 3;
+    optional uint32 Voltage = 4 [default=0];      // 用于打标时传输电压
+    optional uint32 Version = 5 [default=1];      // 打标版本：1:origin，2:origin2
+}
+
+
+message OriginCommon {
+    optional sint32 X = 1;
+    optional sint32 Y = 2;
+    optional sint32 Z = 3;
+}
